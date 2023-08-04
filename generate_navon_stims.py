@@ -13,10 +13,13 @@ import cmath
 import random
 import pdb
 
-font_path="/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-global_font_size = 200
-local_font_size = 8
-image_size = 224
+font_path = "/System/Library/Fonts/Helvetica.ttc"
+global_font_index = 0 # 0 is usually regular, 1 bold
+local_font_index = 1
+global_font_size = 560
+local_font_size = 20
+local_step_size_offset = [1, 5] # x, y
+image_size = 512
 
 def polar_to_cartesian(r, phi):
     x = r * np.cos(phi)
@@ -34,7 +37,7 @@ def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_si
     image = Image.new("RGB", (im_size, im_size), "white")
     draw = ImageDraw.Draw(image)
 
-    font = ImageFont.truetype(font_path, font_size)
+    font = ImageFont.truetype(font_path, font_size, index=global_font_index)
     box = draw.textbbox([0, 0], letter, font=font, anchor='lt')
     w = box[2] - box[0]
     h = box[3] - box[1]
@@ -59,12 +62,13 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
     image = Image.new("RGB", (mask.shape[0], mask.shape[1]), "white")
     draw = ImageDraw.Draw(image)
 
-    font = ImageFont.truetype(font_path, font_size)
+    font = ImageFont.truetype(font_path, font_size, index=local_font_index)
     box = draw.textbbox([0, 0], fill_letter, font=font, anchor='lt')
-    step_size  = max([box[2] - box[0], box[3] - box[1]])
+    step_size_x = box[2] - box[0] + local_step_size_offset[1]
+    step_size_y = box[3] - box[1] + local_step_size_offset[0]
 
-    for x in np.arange(0, mask.shape[0], step_size):
-        for y in np.arange(0, mask.shape[1], step_size):
+    for x in np.arange(0, mask.shape[0], step_size_x):
+        for y in np.arange(0, mask.shape[1], step_size_y):
             if np.array_equal(mask[x, y, :], [0, 0, 0]):
                 draw.text((y, x), fill_letter, font=font, fill="black")
 
