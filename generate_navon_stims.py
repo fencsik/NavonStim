@@ -20,6 +20,8 @@ global_font_size = 560
 local_font_size = 20
 local_step_size_offset = [1, 5] # x, y
 image_size = 512
+image_bg = (255, 255, 255)
+transparent = False
 
 def polar_to_cartesian(r, phi):
     x = r * np.cos(phi)
@@ -34,7 +36,7 @@ def make_dirs(dirs):
 
 def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_size,
                             font_path=font_path):
-    image = Image.new("RGB", (im_size, im_size), "white")
+    image = Image.new("RGB", (im_size, im_size), image_bg)
     draw = ImageDraw.Draw(image)
 
     font = ImageFont.truetype(font_path, font_size, index=global_font_index)
@@ -49,7 +51,7 @@ def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_si
     phi = np.random.uniform(0, 2*math.pi)
     shift_x, shift_y = map(int, map(round, polar_to_cartesian(r, phi)))
     x, y = centered_x + shift_x, centered_y + shift_y
-    image = Image.new("RGB", (im_size, im_size), "white")
+    image = Image.new("RGB", (im_size, im_size), image_bg)
     draw = ImageDraw.Draw(image)
     draw.text((x, y), letter, font=font, fill="black")
     masks.append(image)
@@ -59,7 +61,7 @@ def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_si
 def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
            font_path=font_path):
     mask = np.array(mask)
-    image = Image.new("RGB", (mask.shape[0], mask.shape[1]), "white")
+    image = Image.new("RGB", (mask.shape[0], mask.shape[1]), image_bg)
     draw = ImageDraw.Draw(image)
 
     font = ImageFont.truetype(font_path, font_size, index=local_font_index)
@@ -72,11 +74,18 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
             if np.array_equal(mask[x, y, :], [0, 0, 0]):
                 draw.text((y, x), fill_letter, font=font, fill="black")
 
+    if transparent:
+        transparency = image_bg
+    else:
+        transparency = None
+
     # fix to no rotation
     rotation_deg = 0
 
     image = image.rotate(rotation_deg, fillcolor="white", resample=Image.BILINEAR)    
-    image.save(os.path.join(savedir, "{}.png".format(savename)))
+    image.save(os.path.join(savedir, "{}.png".format(savename)),
+                   format='PNG',
+                   transparency=transparency)
 
 def make_stims(navon_savedir="navon_stims"):
     make_dirs([navon_savedir])
