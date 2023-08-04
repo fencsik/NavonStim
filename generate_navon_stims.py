@@ -32,7 +32,9 @@ def letter_to_shifted_masks(letter, im_size=224, font_size=200,
     draw = ImageDraw.Draw(image)
 
     font = ImageFont.truetype(font_path, font_size)
-    w, h = draw.textsize(letter, font=font)
+    box = draw.textbbox([0, 0], letter, font=font, anchor='lt')
+    w = box[2] - box[0]
+    h = box[3] - box[1]
     centered_x, centered_y = ((im_size - w)/2, 0) # really, upper left that will produce a centered letter
     
     masks = []
@@ -56,7 +58,8 @@ def render(mask, fill_letter, savename, savedir, font_size=8,
     draw = ImageDraw.Draw(image)
 
     font = ImageFont.truetype(font_path, font_size)
-    step_size  = max(draw.textsize(fill_letter, font=font))
+    box = draw.textbbox([0, 0], fill_letter, font=font, anchor='lt')
+    step_size  = max([box[2] - box[0], box[3] - box[1]])
 
     for x in np.arange(0, mask.shape[0], step_size):
         for y in np.arange(0, mask.shape[1], step_size):
