@@ -13,6 +13,8 @@ import cmath
 import random
 import pdb
 
+font_path="/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+
 def polar_to_cartesian(r, phi):
     x = r * np.cos(phi)
     y = r * np.sin(phi)
@@ -25,7 +27,7 @@ def make_dirs(dirs):
             os.makedirs(d)
 
 def letter_to_shifted_masks(letter, im_size=224, font_size=200,
-                            font_path="/Library/Fonts/Arial/Arial Bold.ttf"):
+                            font_path=font_path):
     image = Image.new("RGB", (im_size, im_size), "white")
     draw = ImageDraw.Draw(image)
 
@@ -46,7 +48,7 @@ def letter_to_shifted_masks(letter, im_size=224, font_size=200,
     return masks
 
 def render(mask, fill_letter, savename, savedir, font_size=8,
-           font_path="/Library/Fonts/Arial/Arial Bold.ttf"):
+           font_path=font_path):
     mask = np.array(mask)
     image = Image.new("RGB", (mask.shape[0], mask.shape[1]), "white")
     draw = ImageDraw.Draw(image)
