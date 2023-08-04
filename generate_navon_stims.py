@@ -36,15 +36,17 @@ def letter_to_shifted_masks(letter, im_size=224, font_size=200,
     centered_x, centered_y = ((im_size - w)/2, 0) # really, upper left that will produce a centered letter
     
     masks = []
-    for i, r in enumerate(np.linspace(0, 40, num=6)[1:]): # norm r
-        phi = np.random.uniform(0, 2*math.pi)
-        shift_x, shift_y = map(int, map(round, polar_to_cartesian(r, phi)))
-        print("r = {}, shift = ({}, {})".format(r, shift_x, shift_y))
-        x, y = centered_x + shift_x, centered_y + shift_y
-        image = Image.new("RGB", (im_size, im_size), "white")
-        draw = ImageDraw.Draw(image)
-        draw.text((x, y), letter, font=font, fill="black")
-        masks.append(image)
+
+    r = 0
+    phi = np.random.uniform(0, 2*math.pi)
+    shift_x, shift_y = map(int, map(round, polar_to_cartesian(r, phi)))
+    print("r = {}, shift = ({}, {})".format(r, shift_x, shift_y))
+    x, y = centered_x + shift_x, centered_y + shift_y
+    image = Image.new("RGB", (im_size, im_size), "white")
+    draw = ImageDraw.Draw(image)
+    draw.text((x, y), letter, font=font, fill="black")
+    masks.append(image)
+
     return masks
 
 def render(mask, fill_letter, savename, savedir, font_size=8,
@@ -61,8 +63,8 @@ def render(mask, fill_letter, savename, savedir, font_size=8,
             if np.array_equal(mask[x, y, :], [0, 0, 0]):
                 draw.text((y, x), fill_letter, font=font, fill="black")
 
-    # randomly sample a rotation on the fly
-    rotation_deg = random.sample(range(-45, 46), k=1)[0]
+    # fix to no rotation
+    rotation_deg = 0
 
     image = image.rotate(rotation_deg, fillcolor="white", resample=Image.BILINEAR)    
     image.save(os.path.join(savedir, "{}.png".format(savename)))
