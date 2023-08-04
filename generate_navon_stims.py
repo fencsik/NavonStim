@@ -68,7 +68,9 @@ def render(mask, fill_letter, savename, savedir, font_size=8,
 def make_stims(navon_savedir="navon_stims"):
     make_dirs([navon_savedir])
 
-    all_letters = list(string.ascii_uppercase)
+    #all_letters = list(string.ascii_uppercase)
+    all_letters = ['A', '3']
+
     make_dirs([os.path.join(navon_savedir, shape_letter) 
                      for shape_letter in all_letters])
 
@@ -82,6 +84,6 @@ def make_stims(navon_savedir="navon_stims"):
 
 
 if __name__=="__main__":
-    make_stims("navon_rotated")
+    make_stims("navon")
 
 
