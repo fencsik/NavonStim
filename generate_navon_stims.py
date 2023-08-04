@@ -45,7 +45,6 @@ def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_si
     r = 0
     phi = np.random.uniform(0, 2*math.pi)
     shift_x, shift_y = map(int, map(round, polar_to_cartesian(r, phi)))
-    print("r = {}, shift = ({}, {})".format(r, shift_x, shift_y))
     x, y = centered_x + shift_x, centered_y + shift_y
     image = Image.new("RGB", (im_size, im_size), "white")
     draw = ImageDraw.Draw(image)
