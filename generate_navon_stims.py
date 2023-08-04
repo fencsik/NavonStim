@@ -14,6 +14,9 @@ import random
 import pdb
 
 font_path="/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+global_font_size = 200
+local_font_size = 8
+image_size = 224
 
 def polar_to_cartesian(r, phi):
     x = r * np.cos(phi)
@@ -26,7 +29,7 @@ def make_dirs(dirs):
         if not os.path.isdir(d):
             os.makedirs(d)
 
-def letter_to_shifted_masks(letter, im_size=224, font_size=200,
+def letter_to_shifted_masks(letter, im_size=image_size, font_size=global_font_size,
                             font_path=font_path):
     image = Image.new("RGB", (im_size, im_size), "white")
     draw = ImageDraw.Draw(image)
@@ -51,7 +54,7 @@ def letter_to_shifted_masks(letter, im_size=224, font_size=200,
 
     return masks
 
-def render(mask, fill_letter, savename, savedir, font_size=8,
+def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
            font_path=font_path):
     mask = np.array(mask)
     image = Image.new("RGB", (mask.shape[0], mask.shape[1]), "white")
