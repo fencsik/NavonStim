@@ -79,10 +79,6 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
     else:
         transparency = None
 
-    # fix to no rotation
-    rotation_deg = 0
-
-    image = image.rotate(rotation_deg, fillcolor="white", resample=Image.BILINEAR)    
     image.save(os.path.join(savedir, "{}.png".format(savename)),
                    format='PNG',
                    transparency=transparency)
@@ -93,17 +89,12 @@ def make_stims(navon_savedir="navon_stims"):
     #all_letters = list(string.ascii_uppercase)
     all_letters = ['A', '3']
 
-    make_dirs([os.path.join(navon_savedir, shape_letter) 
-                     for shape_letter in all_letters])
-
     for fill_letter in all_letters:
         for shape_letter in all_letters:
             masks = letter_to_shifted_masks(shape_letter)
             for i, mask in enumerate(masks):
-                savename = "{}_{}-{}".format(shape_letter, i, fill_letter)
-                render(mask, fill_letter, savename, 
-                       os.path.join(navon_savedir, shape_letter))
-
+                savename = "{}-{}".format(shape_letter, fill_letter)
+                render(mask, fill_letter, savename, navon_savedir)
 
 if __name__=="__main__":
     make_stims("navon")
