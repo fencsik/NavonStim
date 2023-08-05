@@ -90,6 +90,7 @@ def make_stims(navon_savedir="navon_stims"):
     all_letters = ['A', '3']
 
     for shape_letter in all_letters:
+        print('Generating global letter ' + shape_letter)
         masks = letter_to_shifted_masks(shape_letter)
         for fill_letter in all_letters:
             for i, mask in enumerate(masks):
