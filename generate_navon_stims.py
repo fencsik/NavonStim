@@ -86,8 +86,12 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
 def make_stims(navon_savedir="navon_stims"):
     make_dirs([navon_savedir])
 
-    #all_letters = list(string.ascii_uppercase)
-    all_letters = ['A', '3']
+    # assemble list of upper-case letters and digits
+    all_letters = list(string.ascii_uppercase)
+    all_letters.extend(list(string.digits))
+    # remove the awkward ones
+    for letter in ('I', '1'):
+        all_letters.remove(letter)
 
     for shape_letter in all_letters:
         print('Generating global letter ' + shape_letter)
