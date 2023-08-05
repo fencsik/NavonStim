@@ -92,6 +92,7 @@ def make_stims(navon_savedir="navon_stims"):
     # remove the awkward ones
     for letter in ('I', '0', '1'):
         all_letters.remove(letter)
+    all_letters = ['4', '8', 'H', 'M', 'S', 'X']
 
     for shape_letter in all_letters:
         print('Generating global letter ' + shape_letter)
