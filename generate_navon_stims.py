@@ -18,7 +18,7 @@ global_font_index = 0 # 0 is usually regular, 1 bold
 local_font_index = 1
 global_font_size = 560
 local_font_size = 20
-local_step_size_offset = [1, 5] # x, y
+local_step_size_factor = [1.25, 1.35] # x, y
 image_size = 512
 image_bg = (255, 255, 255)
 transparent = False
@@ -66,8 +66,8 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
 
     font = ImageFont.truetype(font_path, font_size, index=local_font_index)
     box = draw.textbbox([0, 0], fill_letter, font=font, anchor='lt')
-    step_size_x = box[2] - box[0] + local_step_size_offset[1]
-    step_size_y = box[3] - box[1] + local_step_size_offset[0]
+    step_size_x = int(round((box[2] - box[0]) * local_step_size_factor[1]))
+    step_size_y = int(round((box[3] - box[1]) * local_step_size_factor[0]))
 
     for x in np.arange(0, mask.shape[0], step_size_x):
         for y in np.arange(0, mask.shape[1], step_size_y):
