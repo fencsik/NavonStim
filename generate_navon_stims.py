@@ -89,9 +89,9 @@ def make_stims(navon_savedir="navon_stims"):
     #all_letters = list(string.ascii_uppercase)
     all_letters = ['A', '3']
 
-    for fill_letter in all_letters:
-        for shape_letter in all_letters:
-            masks = letter_to_shifted_masks(shape_letter)
+    for shape_letter in all_letters:
+        masks = letter_to_shifted_masks(shape_letter)
+        for fill_letter in all_letters:
             for i, mask in enumerate(masks):
                 savename = "{}-{}".format(shape_letter, fill_letter)
                 render(mask, fill_letter, savename, navon_savedir)
