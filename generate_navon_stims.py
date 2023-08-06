@@ -83,6 +83,31 @@ def render(mask, fill_letter, savename, savedir, font_size=local_font_size,
                    format='PNG',
                    transparency=transparency)
 
+# Print iterations progress
+def printProgressBar (
+        iteration, total, prefix = '', suffix = '',
+        decimals = 1, length = 100,
+        fill = '█', printEnd = "\r"):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+        printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end = printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
 def make_stims(navon_savedir="navon_stims"):
     make_dirs([navon_savedir])
 
@@ -94,13 +119,17 @@ def make_stims(navon_savedir="navon_stims"):
         all_letters.remove(letter)
     all_letters = ['4', '8', 'H', 'M', 'S', 'X']
 
+    n_steps = len(all_letters)**2
+    step = 0
+
     for shape_letter in all_letters:
-        print('Generating global letter ' + shape_letter)
         masks = letter_to_shifted_masks(shape_letter)
         for fill_letter in all_letters:
             for i, mask in enumerate(masks):
                 savename = "{}-{}".format(shape_letter, fill_letter)
                 render(mask, fill_letter, savename, navon_savedir)
+                step += 1
+                printProgressBar(step, n_steps, length=64)
 
 if __name__=="__main__":
     make_stims("navon")
