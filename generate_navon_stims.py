@@ -22,6 +22,7 @@ local_step_size_factor = [1.15, 1.35] # x, y
 image_size = 512
 image_bg = (255, 255, 255)
 transparent = False
+progress_bar = False
 
 def polar_to_cartesian(r, phi):
     x = r * np.cos(phi)
@@ -122,6 +123,7 @@ def make_stims(navon_savedir="navon_stims"):
     n_steps = len(all_letters)**2
     step = 0
 
+    print('Generating {} letters...'.format(n_steps))
     for shape_letter in all_letters:
         masks = letter_to_shifted_masks(shape_letter)
         for fill_letter in all_letters:
@@ -129,7 +131,10 @@ def make_stims(navon_savedir="navon_stims"):
                 savename = "{}-{}".format(shape_letter, fill_letter)
                 render(mask, fill_letter, savename, navon_savedir)
                 step += 1
-                printProgressBar(step, n_steps, length=64)
+                if progress_bar:
+                    printProgressBar(step, n_steps, length=64)
+    if not progress_bar:
+        print('done')
 
 if __name__=="__main__":
     make_stims("navon")
