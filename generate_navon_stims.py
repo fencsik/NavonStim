@@ -13,7 +13,7 @@ import cmath
 import random
 import pdb
 
-font_path = "/System/Library/Fonts/Monaco.ttf"
+font_path = os.path.join('/System', 'Library', 'Fonts', 'Monaco.ttf')
 global_font_index = 0 # 0 is usually regular, 1 bold
 local_font_index = 0
 global_font_size = 450
