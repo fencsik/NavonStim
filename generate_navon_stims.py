@@ -123,7 +123,7 @@ def make_stims(navon_savedir="navon_stims"):
     n_steps = len(all_letters)**2
     step = 0
 
-    print('Generating {} letters...'.format(n_steps))
+    print('Generating {} images...'.format(n_steps))
     for shape_letter in all_letters:
         masks = letter_to_shifted_masks(shape_letter)
         for fill_letter in all_letters:
