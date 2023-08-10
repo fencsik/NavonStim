@@ -16,10 +16,10 @@ import pdb
 font_path = os.path.join('/System', 'Library', 'Fonts', 'Monaco.ttf')
 global_font_index = 0 # 0 is usually regular, 1 bold
 local_font_index = 0
-global_font_size = 450
+global_font_size = 300
 local_font_size = 18
 local_step_size_factor = [1.15, 1.35] # x, y
-image_size = 512
+image_size = 360
 image_bg = (255, 255, 255)
 transparent = False
 progress_bar = False
