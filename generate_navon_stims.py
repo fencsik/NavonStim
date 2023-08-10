@@ -118,7 +118,7 @@ def make_stims(navon_savedir="navon_stims"):
     # remove the awkward ones
     for letter in ('I', 'Q', '0', '1'):
         all_letters.remove(letter)
-    all_letters = ['4', '8', 'H', 'M', 'S', 'X']
+    # all_letters = ['M', 'J', 'S', '4', '9']
 
     n_steps = len(all_letters)**2
     step = 0
