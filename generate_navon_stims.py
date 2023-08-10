@@ -116,7 +116,7 @@ def make_stims(navon_savedir="navon_stims"):
     all_letters = list(string.ascii_uppercase)
     all_letters.extend(list(string.digits))
     # remove the awkward ones
-    for letter in ('I', '0', '1'):
+    for letter in ('I', 'Q', '0', '1'):
         all_letters.remove(letter)
     all_letters = ['4', '8', 'H', 'M', 'S', 'X']
 
